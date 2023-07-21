@@ -47,9 +47,7 @@ export default {
     onMounted(() => {
       try {
         store.getAuth();
-      } catch (e) {
-        console.error(e);
-      }
+      } catch (e) {}
     });
 
     const data = reactive({

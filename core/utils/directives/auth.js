@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 export default {
   bind(el, binding, vnode, oldVnode) {},
   inserted(el, binding, vnode, oldVnode) {},

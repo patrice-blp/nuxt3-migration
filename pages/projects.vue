@@ -22,9 +22,7 @@ export default {
     onMounted(() => {
       try {
         store.getMany();
-      } catch (e) {
-        console.error(e);
-      }
+      } catch (e) {}
     });
 
     onUnmounted(() => store.$dispose());

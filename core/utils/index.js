@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import Vue from 'vue';
 
 // Any modules in @utils will be registered
