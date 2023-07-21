@@ -1,32 +1,30 @@
-import fs from 'fs';
-import YAML from 'yaml';
 import webpack from 'webpack';
+import { defineNuxtConfig } from "nuxt/config";
 
-require('dotenv').config();
+// require('dotenv').config();
 
-function readYamlFile(filePath) {
-  const file = fs.readFileSync(filePath, 'utf8');
-
-  return YAML.parse(file);
-}
-
-export default {
+export default defineNuxtConfig({
   // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
-    title: 'nuxt-template',
-    htmlAttrs: {
-      lang: 'en',
+  app: {
+    head: {
+      title: 'Nuxt V3 migration',
+      htmlAttrs: {
+        lang: 'en',
+      },
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { hid: 'description', name: 'description', content: '' },
+        { name: 'format-detection', content: 'telephone=no' },
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'stylesheet', href: '/icons/style.css' },
+      ],
+      noscript: [
+        { children: 'JavaScript is required' }
+      ]
     },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' },
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: '/icons/style.css' },
-    ],
   },
 
   dir: {
@@ -50,25 +48,22 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '@/core/plugins/v-sanitize' },
-    { src: '@/core/plugins/element-ui' },
-    { src: '@/core/plugins/moment' },
-    { src: '@/core/plugins/axios' },
+    // { src: '@/core/plugins/v-sanitize' },
+    // { src: '@/core/plugins/moment' },
     { src: '@/core/plugins/i18n' },
-    { src: '@/core/utils' },
+    // { src: '@/core/utils' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   // components: true,
   components: [
-    // '@/components/',
+    '@/components/',
     { path: '@/components/base/' },
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://composition-api.nuxtjs.org
-    '@nuxtjs/composition-api/module',
+    '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
     // https://windicss.org/guide/
@@ -76,50 +71,32 @@ export default {
     // https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     // https://www.npmjs.com/package/@nuxtjs/style-resources
-    '@nuxtjs/style-resources',
     ['@nuxtjs/eslint-module', { fix: true }],
   ],
 
-  styleResources: {
-    scss: [
-      '@/core/styles/scss/_colors.scss',
-      '@/core/styles/scss/_mixins.scss',
-      '@/core/styles/scss/_variables.scss',
-    ],
-    hoistUseStatements: true, // Hoists the "@use" imports. Applies only to "sass", "scss" and "less". Default: false.
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/core/styles/scss/_colors.scss"; @import "@/core/styles/scss/_mixins.scss"; @import "@/core/styles/scss/_variables.scss";'
+        }
+      }
+    }
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
-    'nuxt-i18n',
+    '@nuxtjs/i18n',
+    '@pinia/nuxt',
+    '@element-plus/nuxt',
   ],
 
   i18n: {
     locales: ['en', 'vi'],
     defaultLocale: 'vi',
     strategy: 'no_prefix',
-    vueI18n: {
-      fallbackLocale: {
-        vi: ['en'],
-        default: ['en'],
-      },
-      silentTranslationWarn: true,
-      messages: {
-        en: readYamlFile('./locales/en.yaml'),
-        vi: readYamlFile('./locales/vi.yaml'),
-      },
-    },
+    vueI18n: './i18n.config.js',
     vueI18nLoader: true,
-  },
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    // baseURL: process.env.API_URL || 'http://localhost:5000',
-    retry: { retries: 3 },
   },
 
   watch: [
@@ -152,13 +129,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [/^element-ui/],
+    transpile: [/^element-plus/],
     extractCSS: {
       ignoreOrder: true,
     },
     plugins: [
       // Ignore all locale files of moment.js
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ })
     ],
     babel: {
       plugins: [
@@ -185,12 +162,8 @@ export default {
     },
   },
 
-  router: {
-    middleware: ['ssr-cookie'],
-  },
-
   /*
    ** Server Middleware
    */
   serverMiddleware: [{ path: '/api/v1', handler: '@/server' }],
-};
+});

@@ -88,11 +88,11 @@ module.exports = {
     'vue/max-attributes-per-line': ['error', {
       singleline: {
         max: 3,
-        allowFirstLine: true,
+        // allowFirstLine: true,
       },
       multiline: {
         max: 1,
-        allowFirstLine: false,
+        // allowFirstLine: false,
       },
     }],
     'quote-props': [2, 'consistent-as-needed'],
