@@ -98,5 +98,16 @@ module.exports = {
     'quote-props': [2, 'consistent-as-needed'],
     'vue/component-name-in-template-casing': ['error', 'PascalCase'],
     'vue/dot-location': ['error', 'property'],
-  }
+  },
+  overrides: [
+    {
+      files: [
+        "**/*.spec.js",
+        "**/*.spec.jsx"
+      ],
+      env: {
+        jest: true
+      }
+    }
+  ]
 };
