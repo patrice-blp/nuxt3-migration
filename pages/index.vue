@@ -2,7 +2,7 @@
   <div :class="$style.abc">
     <transition name="slide-fade" mode="out-in">
       <el-button
-        v-if="$store.getters.locale === 'en'"
+        v-if="locale === 'en'"
         key="en-button"
         size="mini"
         type="primary"
@@ -29,17 +29,27 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api';
+import {computed} from "vue";
+import { useLocaleStore } from "@/store/locale";
 
-export default defineComponent({
-  name: 'IndexPage',
+export default {
+  name: "IndexPage",
+  setup() {
+    const store = useLocaleStore();
+    const locale = computed(() => store.getLocale);
 
-  head() {
     return {
-      title: this.$t('Home page'),
+      locale,
     };
   },
-});
+  __defaults: {
+    head() {
+      return {
+        title: this.$t('Home page'),
+      };
+    }
+  }
+};
 </script>
 
 <style lang="scss" module>

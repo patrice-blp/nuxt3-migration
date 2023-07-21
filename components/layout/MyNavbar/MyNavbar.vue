@@ -5,15 +5,14 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api';
 
-export default defineComponent({
+export default {
   name: 'MyNavbar',
   props: {},
   setup() {
     //
   },
-});
+};
 </script>
 
 <style lang="scss" module>

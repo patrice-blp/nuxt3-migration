@@ -3,11 +3,10 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api';
 
-export default defineComponent({
-  name: '',
+export default {
+  name: 'ExampleBase',
   props: {},
   setup() {},
-});
+};
 </script>

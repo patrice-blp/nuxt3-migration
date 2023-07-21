@@ -1,20 +1,22 @@
 import Cookies from 'js-cookie';
-import dev from '@utils/functions/dev';
+import {defineNuxtPlugin} from "nuxt/app";
+import dev from '@/core/utils/functions/dev';
+import { useLocaleStore } from '@/store/locale';
 
-const i18nPlugin = async({ store, app }) => {
+export default defineNuxtPlugin(async (nuxtApp) => {
+  const localeStore = useLocaleStore();
+
   // set default locale from store (Cookie)
-  if (store.getters.locale) {
-    await app.i18n.setLocale(store.getters.locale);
+  if (localeStore.locale) {
+    await nuxtApp.$i18n.setLocale(localeStore.locale);
   }
-  // beforeLanguageSwitch called right before setting a new locale
-  app.i18n.onBeforeLanguageSwitch = (oldLocale, newLocale) => {
+
+  nuxtApp.$i18n.onBeforeLanguageSwitch = (oldLocale, newLocale) => {
     dev.log(oldLocale, newLocale);
   };
-  // onLanguageSwitched called right after a new locale has been set
-  app.i18n.onLanguageSwitched = (_, newLocale) => {
-    store.commit('SET_LOCALE', newLocale);
+
+  nuxtApp.$i18n.onLanguageSwitched = (_, newLocale) => {
+    localeStore.setLocale(newLocale);
     Cookies.set('lang', newLocale);
   };
-};
-
-export default i18nPlugin;
+});

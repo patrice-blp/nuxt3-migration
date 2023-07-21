@@ -35,19 +35,22 @@
 </template>
 
 <script>
-import {
-  computed,
-  defineComponent,
-  reactive,
-  toRefs,
-  useContext,
-} from '@nuxtjs/composition-api';
+import {computed, onMounted, reactive, toRefs} from "vue";
+import { useAuthStore } from '@/store/auth';
 
-export default defineComponent({
+export default {
   name: 'MySidebar',
   props: {},
   setup() {
-    const { store } = useContext();
+    const store = useAuthStore();
+
+    onMounted(() => {
+      try {
+        store.getAuth();
+      } catch (e) {
+        console.error(e);
+      }
+    });
 
     const data = reactive({
       sidebarItems: [
@@ -66,14 +69,14 @@ export default defineComponent({
       ],
     });
 
-    const currentUser = computed(() => store.getters['auth/currentUser'] || {});
+    const currentUser = computed(() => store.currentUser || {});
 
     return {
       ...toRefs(data),
       currentUser,
     };
   },
-});
+};
 </script>
 
 <style lang="scss" module>

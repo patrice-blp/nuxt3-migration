@@ -1,39 +1,42 @@
 <template>
   <div>
-    <div>{{ $t('This is the project page wrapper') }}</div>
-    {{ $store.state.project.count }}
-    <nuxt-child />
+    <h1>{{ $t('Project') }}</h1>
+
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="id" label="ID" width="180" />
+      <el-table-column prop="title" label="Title" />
+      <el-table-column prop="body" label="Body" />
+    </el-table>
   </div>
 </template>
 
 <script>
-import { projectStore } from '@/store-lazy/project';
-import {
-  defineComponent,
-  onMounted,
-  onUnmounted,
-  useStore,
-} from '@nuxtjs/composition-api';
+import {computed, onMounted, onUnmounted} from 'vue';
+import { useProjectStore } from '@/store/project';
 
-export default defineComponent({
+export default {
+  name: "ProjectPage",
   setup() {
-    const store = useStore();
-
-    store.registerModule('project', projectStore);
+    const store = useProjectStore();
 
     onMounted(() => {
       try {
-        store.dispatch('project/getMany');
+        store.getMany();
       } catch (e) {
         console.error(e);
       }
     });
 
-    onUnmounted(() => store.unregisterModule('project'));
+    onUnmounted(() => store.$dispose());
+    const count = computed(() => store.count);
+    const tableData = computed(() => store.list);
 
-    return {};
-  },
-});
+    return {
+      count,
+      tableData,
+    };
+  }
+};
 </script>
 
 <i18n lang="yaml">

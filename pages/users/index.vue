@@ -5,17 +5,17 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api';
 
-export default defineComponent({
+export default {
   name: 'UserPage',
-
-  head() {
-    return {
-      title: this.$t('User page'),
-    };
-  },
-});
+  __defaults: {
+    head() {
+      return {
+        title: this.$t('User page'),
+      };
+    },
+  }
+};
 </script>
 
 <i18n lang="yaml">
