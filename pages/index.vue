@@ -4,7 +4,7 @@
       <el-button
         v-if="locale === 'en'"
         key="en-button"
-        size="mini"
+        size="large"
         type="primary"
         @click="$i18n.setLocale('vi')"
       >
@@ -13,7 +13,7 @@
       <el-button
         v-else
         key="vi-button"
-        size="mini"
+        size="large"
         type="danger"
         @click="$i18n.setLocale('en')"
       >
@@ -25,6 +25,9 @@
       <span class="text-warning-700">{{ $t('Hello world!') }}</span>
     </div>
     <ExampleBase />
+    <Head>
+      <Title>{{ $t('Home page') }}</Title>
+    </Head>
   </div>
 </template>
 
@@ -42,13 +45,6 @@ export default {
       locale,
     };
   },
-  __defaults: {
-    head() {
-      return {
-        title: this.$t('Home page'),
-      };
-    }
-  }
 };
 </script>
 
@@ -57,10 +53,3 @@ export default {
   color: $--color-red;
 }
 </style>
-
-<i18n lang="yaml">
-vi:
-  Home page: Trang chủ
-  Hello world!: Xin chào thế giới!
-  Change language: Đổi ngôn ngữ
-</i18n>

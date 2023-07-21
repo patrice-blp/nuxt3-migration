@@ -36,5 +36,11 @@
     "credit_card_number": "Sai định dạng số thẻ tín dụng",
     "credit_card_expire": "Sai định dạng ngày hết hạn thẻ tín dụng",
     "credit_card_cvv": "Sai định dạng mã bảo mật cho thẻ tín dụng"
-  }
+  },
+  "Home page": "Trang chủ",
+  "Hello world!": "Xin chào thế giới!",
+  "Change language": "Đổi ngôn ngữ",
+  "User page": "Trang người dùng",
+  "This is the users page!": "Đây là trang người dùng!",
+  "This is the project page wrapper": "Đây là layout bọc ngoài trang dự án"
 }

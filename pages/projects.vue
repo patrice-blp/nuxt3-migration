@@ -38,8 +38,3 @@ export default {
   }
 };
 </script>
-
-<i18n lang="yaml">
-vi:
-  This is the project page wrapper: Đây là layout bọc ngoài trang dự án
-</i18n>
