@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import Cookies from "js-cookie";
-import { useFetch } from "nuxt/app";
 import {AUTH_API_URL} from "@/constants/auth";
 
 export const useAuthStore = defineStore("auth", {
@@ -11,14 +10,14 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async register(context, { form }) {
-      const { data } = await useFetch(AUTH_API_URL.REGISTER(), { method: "POST", body: form });
+      const { data } = await fetch(AUTH_API_URL.REGISTER(), { method: "POST", body: form });
       context.commit('SET_AUTH', data);
       Cookies.set('auth', data);
 
       return data;
     },
     async login(context, { form }) {
-      const { data } = await useFetch(AUTH_API_URL.LOGIN(), { body: form });
+      const { data } = await fetch(AUTH_API_URL.LOGIN(), { body: form });
       context.commit('SET_AUTH', data);
       Cookies.set('auth', data);
 
